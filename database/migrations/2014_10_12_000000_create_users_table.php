@@ -15,9 +15,20 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('avatar');//用户头像
+            $table->string('confirmation_token');
+            $table->smallInteger('is_active')->default(0);//是否激活
+            $table->integer('question_count')->default(0);
+            $table->integer('answers_count')->default(0);
+            $table->integer('comments_count')->default(0);//评论数
+            $table->integer('favorites_count')->default(0);//收藏数
+            $table->integer('likes_count')->default(0);//点赞数
+            $table->integer('followers_count')->default(0);//关注数
+            $table->integer('followings_count')->default(0);//被关注数
+            $table->json('setting')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
