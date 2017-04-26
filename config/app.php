@@ -170,6 +170,7 @@ return [
         Naux\Mail\SendCloudServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Overtrue\LaravelUEditor\UEditorServiceProvider::class,
 
         /*
          * Application Service Providers...
