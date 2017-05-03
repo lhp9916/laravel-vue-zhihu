@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller
 {
+    /**
+     * QuestionsController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only('create');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +44,13 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'title' => $request->get('title'),
+            'body' => $request->get('body'),
+            'user_id' => \Auth::id(),
+        ];
+        $question = Question::create($data);
+        return redirect()->route('question.show', [$question->id]);
     }
 
     /**
@@ -45,7 +61,8 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
-        //
+        $question = Question::find($id);
+        return view('questions.show', compact('question'));
     }
 
     /**
