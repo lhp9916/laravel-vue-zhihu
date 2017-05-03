@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionRequest;
 use App\Question;
 use Illuminate\Http\Request;
 
@@ -39,24 +40,11 @@ class QuestionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StoreQuestionRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
-        $rules = [
-            'title' => 'required|min:6|max:196',
-            'body' => 'required|min:26'
-        ];
-        $message = [
-            'title.required' => '标题不能为空',
-            'title.min' => '标题不能少于6个字符',
-            'title.max' => '标题不能多余196个字符',
-            'body.required' => '内容不能为空',
-            'body.required' => '内容不能少于26个字符',
-        ];
-        $this->validate($request, $rules, $message);
-
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),
