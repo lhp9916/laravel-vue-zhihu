@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
-use App\Question;
-use App\Topic;
+use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller
 {
+    protected $questionRepository;
+
     /**
      * QuestionsController constructor.
+     * @param QuestionRepository $questionRepository
      */
-    public function __construct()
+    public function __construct(QuestionRepository $questionRepository)
     {
         $this->middleware('auth')->except(['index', 'show']);
+        $this->questionRepository = $questionRepository;
     }
 
 
@@ -46,14 +49,14 @@ class QuestionsController extends Controller
      */
     public function store(StoreQuestionRequest $request)
     {
-        $topics = $this->normalizeTopic($request->get('topics'));
+        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),
             'user_id' => \Auth::id(),
         ];
 
-        $question = Question::create($data);
+        $question = $this->questionRepository->create($data);
 
         $question->topics()->attach($topics);
 
@@ -68,7 +71,8 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
-        $question = Question::where('id', $id)->with('topics')->first();
+        $question = $this->questionRepository->byIdWithTopics($id);
+
         return view('questions.show', compact('question'));
     }
 
@@ -106,15 +110,4 @@ class QuestionsController extends Controller
         //
     }
 
-    private function normalizeTopic($topics)
-    {
-        return collect($topics)->map(function ($topic) {
-            if (is_numeric($topic)) {
-                Topic::find($topic)->increment('questions_count');
-                return (int)$topic;
-            }
-            $newTopic = Topic::create(['name' => $topic, 'questions_count' => 1]);
-            return $newTopic->id;
-        })->toArray();
-    }
 }
