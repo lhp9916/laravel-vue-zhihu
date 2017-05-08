@@ -18,6 +18,11 @@ use App\Topic;
  */
 class QuestionRepository
 {
+    public function byId($id)
+    {
+        return Question::find($id);
+    }
+
     /**
      * @param $id
      * @return mixed

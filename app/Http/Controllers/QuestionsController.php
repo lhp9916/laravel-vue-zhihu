@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class QuestionsController extends Controller
 {
@@ -84,7 +85,11 @@ class QuestionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = $this->questionRepository->byId($id);
+        if (\Auth::user()->owns($question)) {
+            return view('questions.edit', compact('question'));
+        }
+        return back();
     }
 
     /**
@@ -94,9 +99,17 @@ class QuestionsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreQuestionRequest $request, $id)
     {
-        //
+        $question = $this->questionRepository->byId($id);
+        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
+        $question->update([
+            'title' => $request->get('title'),
+            'body' => $request->get('body'),
+        ]);
+
+        $question->topics()->sync($topics);
+        return redirect()->route('question.show', [$question->id]);
     }
 
     /**
