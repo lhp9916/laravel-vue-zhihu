@@ -48,4 +48,9 @@ class QuestionRepository
             return $newTopic->id;
         })->toArray();
     }
+
+    public function getQuestionsFeed()
+    {
+        return Question::published()->latest('updated_at')->with('user')->get();
+    }
 }

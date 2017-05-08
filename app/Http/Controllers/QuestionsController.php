@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
-use function MongoDB\BSON\toJSON;
 
 class QuestionsController extends Controller
 {
@@ -29,7 +28,8 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        //
+        $questions = $this->questionRepository->getQuestionsFeed();
+        return view('questions.index', compact('questions'));
     }
 
     /**
@@ -120,7 +120,12 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = $this->questionRepository->byId($id);
+        if (\Auth::user()->owns($question)) {
+            $question->delete();
+            return redirect('/');
+        }
+        abort(403, 'Forbidden');//return back();
     }
 
 }
