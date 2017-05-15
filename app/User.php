@@ -40,12 +40,21 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
-    public function follows($question)
+    public function follows()
     {
-        return Follow::create([
-            'question_id' => $question,
-            'user_id' => $this->id,
-        ]);
+        return $this->belongsToMany(Question::class, 'user_question')->withTimestamps();
+    }
+
+    public function followThis($question)
+    {
+        //toggle 存在删除，不存在创建一条
+        return $this->follows()->toggle($question);
+    }
+
+    //用户是否关注过该问题
+    public function followed($question)
+    {
+        return !!$this->follows()->where('question_id', $question)->count();
     }
 
     public function sendPasswordResetNotification($token)
