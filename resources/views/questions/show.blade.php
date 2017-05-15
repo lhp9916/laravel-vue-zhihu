@@ -4,7 +4,7 @@
     @include('vendor.ueditor.assets')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {{ $question->title }}
@@ -30,7 +30,22 @@
                 </div>
             </div>
 
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-3">
+                <div class="panel panel-default question-follow">
+                    <div class="panel-heading">
+                        <h2>{{ $question->followers_count }}</h2>
+                        <span>关注者</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <a href="/question/{{$question->id}}/follow" class="btn btn-default">
+                        关注该问题
+                    </a>
+                    <a href="#editor" class="btn btn-primary">撰写答案</a>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {{ $question->answers_count }}个答案
@@ -55,21 +70,24 @@
                             </div>
                         @endforeach
 
+                        @if(Auth::check())
+                            <form action="/questions/{{$question->id}}/answer" method="post">
+                                {!! csrf_field() !!}
 
-                        <form action="/questions/{{$question->id}}/answer" method="post">
-                            {!! csrf_field() !!}
-
-                            <div class="form-group {{ $errors->has('body')? 'has-error':''}}">
-                                <!-- 编辑器容器 -->
-                                <script id="container" name="body" type="text/plain">
-                                    {!! old('body') !!}
-                                </script>
-                                @if($errors->has('body'))
-                                    <strong>{{ $errors->first('body') }}</strong>
-                                @endif
-                            </div>
-                            <button class="btn btn-success pull-right" type="submit">提交答案</button>
-                        </form>
+                                <div class="form-group {{ $errors->has('body')? 'has-error':''}}">
+                                    <!-- 编辑器容器 -->
+                                    <script id="container" name="body" type="text/plain">
+                                        {!! old('body') !!}
+                                    </script>
+                                    @if($errors->has('body'))
+                                        <strong>{{ $errors->first('body') }}</strong>
+                                    @endif
+                                </div>
+                                <button class="btn btn-success pull-right" type="submit">提交答案</button>
+                            </form>
+                        @else
+                            <a href="{{ url('login') }}" class="btn btn-success btn-block">登录提交答案</a>
+                        @endif
                     </div>
 
                 </div>
