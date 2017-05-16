@@ -41077,11 +41077,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['question', 'user'],
+    props: ['question'],
     mounted: function mounted() {
         var _this = this;
 
-        axios.post('/api/question/follower', { 'question': this.question, 'user': this.user }).then(function (response) {
+        axios.post('/api/question/follower', { 'question': this.question }).then(function (response) {
             _this.followed = response.data.followed;
         });
     },
@@ -41170,6 +41170,7 @@ window.Vue = __webpack_require__("./node_modules/.2.2.6@vue/dist/vue.common.js")
 window.axios = __webpack_require__("./node_modules/.0.15.3@axios/index.js");
 
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
+window.axios.defaults.headers.common['Authorization'] = window.Laravel.apiToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
