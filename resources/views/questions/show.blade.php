@@ -94,6 +94,29 @@
 
                 </div>
             </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default question-follow">
+                    <div class="panel-heading">
+                        <h5>关于作者</h5>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media-left">
+                            <a href="#">
+                                <img width="36" src="{{$question->user->avatar}}" alt="{{$question->user->name}}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="">
+                                    {{$question->user->name}}
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 @section('js')
