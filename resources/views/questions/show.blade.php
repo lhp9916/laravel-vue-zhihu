@@ -128,6 +128,7 @@
                                     <div class="statics-count">{{ $question->user->followers_count }}</div>
                                 </div>
                             </div>
+                            <user-follow-button user="{{ $question->user_id }}"></user-follow-button>
                             <a href="#editor" class="btn btn-default pull-right">发送私信</a>
 
                         </div>

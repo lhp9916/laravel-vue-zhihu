@@ -1682,6 +1682,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/._babel-loader@6.4.1@babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/._vue-loader@11.3.4@vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/UserFollowButton.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/api/user/followers/' + this.user).then(function (response) {
+            _this.followed = response.data.followed;
+        });
+    },
+    data: function data() {
+        return {
+            followed: false
+        };
+    },
+
+    computed: {
+        text: function text() {
+            return this.followed ? '已关注' : '关注他';
+        }
+    },
+    methods: {
+        follow: function follow() {
+            var _this2 = this;
+
+            axios.post('/api/user/follow', { 'user': this.user }).then(function (response) {
+                _this2.followed = response.data.followed;
+            });
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/._bootstrap-sass@3.3.7@bootstrap-sass/assets/javascripts/bootstrap.js":
 /***/ (function(module, exports) {
 
@@ -31696,6 +31743,33 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/._vue-loader@11.3.4@vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-958b4c1c\"}!./node_modules/._vue-loader@11.3.4@vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/UserFollowButton.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default pull-left",
+    class: {
+      'btn-success': _vm.followed
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.text)
+    },
+    on: {
+      "click": _vm.follow
+    }
+  })
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-958b4c1c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/._vue-loader@11.3.4@vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-abc3e654\"}!./node_modules/._vue-loader@11.3.4@vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Example.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41501,6 +41575,7 @@ __webpack_require__("./resources/assets/js/bootstrap.js");
 
 Vue.component('example', __webpack_require__("./resources/assets/js/components/Example.vue"));
 Vue.component('question-follow-button', __webpack_require__("./resources/assets/js/components/QuestionFollowButton.vue"));
+Vue.component('user-follow-button', __webpack_require__("./resources/assets/js/components/UserFollowButton.vue"));
 
 var app = new Vue({
   el: '#app'
@@ -41625,6 +41700,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4ea7de0d", Component.options)
   } else {
     hotAPI.reload("data-v-4ea7de0d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/UserFollowButton.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/._vue-loader@11.3.4@vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/._babel-loader@6.4.1@babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/._vue-loader@11.3.4@vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/UserFollowButton.vue"),
+  /* template */
+  __webpack_require__("./node_modules/._vue-loader@11.3.4@vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-958b4c1c\"}!./node_modules/._vue-loader@11.3.4@vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/UserFollowButton.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\workspace\\zhihu-app\\resources\\assets\\js\\components\\UserFollowButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] UserFollowButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-958b4c1c", Component.options)
+  } else {
+    hotAPI.reload("data-v-958b4c1c", Component.options)
   }
 })()}
 
