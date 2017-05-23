@@ -79,4 +79,23 @@ class User extends Authenticatable
     {
         (new UserMailer())->passwordReset($this->email, $token);
     }
+
+    public function votes()
+    {
+        return $this->belongsToMany(Answer::class, 'votes')->withTimestamps();
+    }
+
+    public function voteFor($answer)
+    {
+        return $this->votes()->toggle($answer);
+    }
+
+    /**
+     * @param $answer  answer_id
+     * @return bool
+     */
+    public function hasVotedFor($answer)
+    {
+        return !!$this->votes()->where('answer_id', $answer)->count();
+    }
 }

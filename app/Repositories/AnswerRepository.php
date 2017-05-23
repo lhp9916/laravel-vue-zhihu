@@ -10,4 +10,9 @@ class AnswerRepository
     {
         return Answer::create($data);
     }
+
+    public function byId($id)
+    {
+        return Answer::find($id);
+    }
 }
