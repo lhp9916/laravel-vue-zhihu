@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mailer\UserMailer;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -70,7 +71,7 @@ class RegisterController extends Controller
             'avatar' => '/images/avatars/default.jpg',
             'confirmation_token' => str_random(40),
             'password' => bcrypt($data['password']),
-            'api_token'=>str_random(60),
+            'api_token' => str_random(60),
         ]);
         //发送邮件
         $this->sendVerifyEmailTo($user);
@@ -80,16 +81,6 @@ class RegisterController extends Controller
 
     private function sendVerifyEmailTo($user)
     {
-        $data = [
-            'url' => route('email.verify', ['token' => $user->confirmation_token]),
-            'name' => $user->name,
-        ];
-        $template = new SendCloudTemplate('zhihu_app_register', $data);
-
-        Mail::raw($template, function ($message) use ($user) {
-            $message->from('lhp9916@gmail.com', 'lhp');
-
-            $message->to($user->email);
-        });
+        (new UserMailer())->welcome($user);
     }
 }
