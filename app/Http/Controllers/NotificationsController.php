@@ -8,7 +8,7 @@ class NotificationsController extends Controller
 {
     public function index()
     {
-        $user = \Auth::user();
+        $user = user();
         return view('notifications.index', compact('user'));
     }
 }

@@ -11,7 +11,7 @@ class UserMailer extends Mailer
     {
         $data = [
             'url' => 'http://zhihu.app',
-            'name' => Auth::guard('api')->user()->name,
+            'name' => user('api')->name,
         ];
 
         $this->sendTo('new_follow', $email, $data);
